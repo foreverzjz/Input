@@ -9,6 +9,7 @@
 
 //文件的保存位置
 ?>
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="text">
+<form method="post" enctype="multipart/form-data" action="upload_file.php">
+    <p><input type="file" name="file" id="file" />
+    <p><input type="submit" value="submit"/>
 </form>

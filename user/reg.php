@@ -1,5 +1,14 @@
 <meta charset="utf-8">
+<script src="../js/jquery-1.8.3.min.js"></script>
 <script language=JavaScript>
+	$(document).ready(function(){
+	  $("#a").blur(function(){
+		alert("This input field has lost its focus.");
+	  });
+	  $("#b").blur(function(){
+		alert("aaa");
+	  });
+	});
 function IsMail(mail){
 var patrn = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 if (!patrn.test(mail))
@@ -11,6 +20,7 @@ else
     return true;
 }
 }
+
 //是否为正确的Email地址
 function checkreg() {
     if (reg.G_ID.value == "") {
@@ -114,12 +124,12 @@ function checkreg() {
                         省</td>
                 </tr>
                 <tr>
-                    <td align="right">用户姓名:</td>
-                    <td><input name="U_Name" type="text" class="inputText"  /></td>
+                    <td align="right">登录账号:</td>
+                    <td><input name="U_Account" id="登录账号" type="text" class="inputText" value="" />(用于登录系统，请牢记！)</td>
                 </tr>
                 <tr>
-                    <td align="right">登录账号:</td>
-                    <td><input name="U_Account" id="登录账号" type="text" class="inputText"  />(用于登录系统，请牢记！)</td>
+                    <td align="right">用户姓名:</td>
+                    <td><input name="U_Name" type="text" class="inputText" id="a"/></td>
                 </tr>
                 <tr>
                     <td align="right">登录密码:</td>
@@ -142,3 +152,5 @@ function checkreg() {
 
     </div>
 </div>
+
+
