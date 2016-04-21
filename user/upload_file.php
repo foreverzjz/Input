@@ -1,7 +1,7 @@
 <?php
 header ( "content-type:text/html;charset=utf-8" );
 include "../includes/model.class.php";
-include "../user/simpleDict.php";
+include "../user/SimpleDict.php";
 
 define ('UTF32_BIG_ENDIAN_BOM'   , chr(0x00) . chr(0x00) . chr(0xFE) . chr(0xFF));
 define ('UTF32_LITTLE_ENDIAN_BOM', chr(0xFF) . chr(0xFE) . chr(0x00) . chr(0x00));
@@ -50,27 +50,19 @@ if ((($_FILES["file"]["type"] == "text/plain"))){
 		echo "Error: " . $_FILES["file"]["error"] . "<br />";
     }else{
 		if($_FILES["file"]["size"]<100){
-			echo "上传过小！";
+			echo "上传过小";
 		}
 		else {
-			$fp = fopen($_FILES["file"]["tmp_name"], 'r');
-			$title=basename($_FILES["file"]["name"],".txt");
-			/* while (!feof($fp)) {
-				$line = fgets($fp);
-				$u=explode('# ', $line);//如果有分割
-				mysql_query("INSERT INTO `user` (title)VALUES('trim($line)')",$conn);
-				$model->insert(array('content'=>$line));
-			} */
+			//$title=basename($_FILES["file"]["name"],".txt");
 			$judge="";
-			$content = fread($fp, $_FILES["file"]["size"]);
-			fclose($fp);
-
+			$content= file_get_contents($_FILES["file"]["tmp_name"]);
+			//echo getFileEncoding($content);
 			$content=iconv(getFileEncoding($content),'UTF-8',$content);//更改编码格式
 
 			$substr_content=substr_cut($content,4000);//文章过大，截取
 
 			if(strlen($substr_content)<strlen($content)){
-				$judge=$judge."上传文章过大，已截取！";
+				$judge=$judge."上传文章过大，已截取";
 			}
 			$rep_content = preg_replace('/[\r\n]+/', "\n", $substr_content);//过滤掉多余的空行
 			$rep_content = preg_replace('/\s(?=\s)/', '', $rep_content);//过滤多余空格
@@ -79,15 +71,15 @@ if ((($_FILES["file"]["type"] == "text/plain"))){
 			$replaced = $dict->replace($rep_content, "");//过滤敏感词
 
 			if (strlen($rep_content) > strlen($replaced)) {
-				echo "已将敏感词过滤后存储！".$judge;
+				echo "已将敏感词过滤后存储".$judge;
 			} else {
-				echo "已存储！".$judge;
+				echo "已存储".$judge;
 			}
-			$model->insert(array('AR_Title'=>$title,'AR_Content' => $replaced));
+			$model->insert(array('AR_Title'=>$_POST['title'],'AR_Content' => $replaced));
 		}
     }
 }else{
-	echo "文件格式不正确--txt";
+	echo "文件格式不正确-txt";
 }
 echo "<p>"."<a href='../user/upload.php'>"."<input type='button' value='返回',name='return'/>"."</a>";
 ?>
